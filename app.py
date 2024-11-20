@@ -11,17 +11,20 @@ app = Flask(__name__)
 # Define column names for the input features
 column_names = ['Area', 'Production', 'GDP', 'Annual Growth Rate', 'Inflation', 'Rainfall', 'Temperature']
 
+# Load dataset from CSV
+dataset = pd.read_csv('Dataset.csv')  # Replace with the actual path to your dataset
+
+# Split the dataset into features (X) and target (y)
+X_train = dataset[column_names].values  # Features
+y_train = dataset['Crop Price'].values  # Target variable
+
 # Initialize and fit the pipeline with training data
 my_pipeline = Pipeline([
-    ('imputer', SimpleImputer(strategy='mean')),
-    ('scaler', StandardScaler())
+    ('imputer', SimpleImputer(strategy='mean')),  # Handle missing values
+    ('scaler', StandardScaler())                 # Scale the features
 ])
 
-# Sample training data for demonstration (replace with actual data for real use)
-X_train = np.array([[30, 50, 2.5, 3.0, 1.2, 800, 25], [3500, 16000, 3.0, 3.2, 2.0, 900, 26], [4000, 18000, 3.5, 3.5, 2.5, 1000, 27]])
-y_train = np.array([1000, 1050, 1100])
-
-# Fit the pipeline on the training data
+# Preprocess the training data
 X_train_scaled = my_pipeline.fit_transform(X_train)
 
 # Train the Random Forest model
