@@ -37,20 +37,22 @@ def home():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    # Extract data from form as a list of float values
-    input_features = [float(x) for x in request.form.values()]
-    
-    # Convert input features to DataFrame to ensure correct column names
-    input_df = pd.DataFrame([input_features], columns=column_names)
-    
-    # Preprocess the input data with the fitted pipeline
-    input_prepared = my_pipeline.transform(input_df)
-    
-    # Make the prediction
-    prediction = model.predict(input_prepared)
-    output = round(prediction[0], 2)
-
-    return render_template('index.html', prediction_text=f'Predicted Crop Price: ₹{output}')
+    try:
+        # Extract data from form as a list of float values
+        input_features = [float(x) for x in request.form.values()]
+        
+        # Convert input features to DataFrame to ensure correct column names
+        input_df = pd.DataFrame([input_features], columns=column_names)
+        
+        # Preprocess the input data with the fitted pipeline
+        input_prepared = my_pipeline.transform(input_df)
+        
+        # Make the prediction
+        prediction = model.predict(input_prepared)
+        output = round(prediction[0], 2)
+        return render_template('index.html', prediction_text=f'Predicted Crop Price: ₹{output}')
+    except Exception as e:
+        return render_template('index.html', prediction_text="Error: Invalid input data.")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()  # Remove debug=True for production
