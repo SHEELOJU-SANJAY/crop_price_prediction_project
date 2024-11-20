@@ -9,7 +9,7 @@ from sklearn.impute import SimpleImputer
 app = Flask(__name__)
 
 # Define column names for the input features
-column_names = ['Area', 'Production', 'GDP', 'Annual Growth Rate', 'Inflation', 'Rainfall', 'Temperature']
+column_names = ['Area', 'Production', 'GDP', 'Annual Growth Rate (%)', 'Inflation', 'Rainfall', 'Temparature']
 
 # Load dataset from CSV
 dataset = pd.read_csv('Dataset.csv')  # Replace with the actual path to your dataset
